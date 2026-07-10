@@ -2,7 +2,6 @@ import 'package:chat_app/constant.dart';
 import 'package:chat_app/pages/cahat_page.dart';
 import 'package:chat_app/pages/cubits/login_cubit/login_cubit.dart';
 import 'package:chat_app/pages/sign_up_page.dart';
-import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/widgets/custom_botton.dart';
 import 'package:chat_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +35,8 @@ class SignInScreen extends StatelessWidget {
         } else if (state is LoginFailure) {
           isLoading = false;
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Login failed. Please try again.'),
+            SnackBar(
+              content: Text(state.erroeMessage),
             ),
           );
         }
@@ -100,16 +99,9 @@ class SignInScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   CustomBotton('Sign In', () {
                     if (formKey.currentState!.validate()) {
-                      AuthService.signIn(
+                      BlocProvider.of<LoginCubit>(context).login(
                         email: email,
-                        password: password,
-                        context: context,
-                      );
-
-                      Navigator.pushNamed(
-                        context,
-                        CahatPage.id,
-                        arguments: email,
+                        password: password, context: context,
                       );
                     }
                   }),

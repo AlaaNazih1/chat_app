@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:meta/meta.dart';
@@ -18,11 +19,24 @@ class LoginCubit extends Cubit<LoginState> {
       await AuthService.signIn(
         email: email,
         password: password,
-        context: context,
       );
       emit(LoginSuccess());
-    } catch (e) {
-      emit(LoginFailure());
-    }
+    } on FirebaseAuthException catch (e) {
+  String message;
+  switch (e.code) {
+    case 'user-not-found':
+      message = 'No user found for that email.';
+      break;
+    case 'wrong-password':
+      message = 'Wrong password provided for that user.';
+      break;
+    case 'invalid-credential':
+      message = 'Incorrect email or password.';
+      break;
+    default:
+      message = e.message ?? 'Login failed. Please try again.';
+  }
+  emit(LoginFailure(erroeMessage: message));
+}
   }
 }
