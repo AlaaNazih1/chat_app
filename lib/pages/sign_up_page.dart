@@ -1,6 +1,6 @@
 import 'package:chat_app/constant.dart';
 import 'package:chat_app/pages/cahat_page.dart';
-import 'package:chat_app/pages/cubits/rehister_cubit/register_cubit_cubit.dart';
+import 'package:chat_app/pages/cubits/auth_cubit/auth_cubit.dart';
 import 'package:chat_app/widgets/custom_botton.dart';
 import 'package:chat_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RegisterCubitCubit, RegisterCubitState>(
+    return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
          if (state is RegisterCubitLoading) {
           isLoading = true;
@@ -94,7 +94,7 @@ class SignUpPage extends StatelessWidget {
                     const SizedBox(height: 20),
                     CustomBotton('Sign Up', () async {
                       if (formKey.currentState!.validate()) {
-                        BlocProvider.of<RegisterCubitCubit>(
+                        BlocProvider.of<AuthCubit>(
                           context,
                         ).registerUser(email: email, password: password);
 
