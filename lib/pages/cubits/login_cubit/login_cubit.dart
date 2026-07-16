@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:chat_app/services/auth_service.dart';
-import 'package:meta/meta.dart';
 
 part 'login_state.dart';
 
