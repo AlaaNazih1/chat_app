@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:chat_app/models/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -18,7 +19,7 @@ class ChatCubit extends Cubit<ChatState> {
    'id': email,
       });
 } on Exception catch (e) {
-  
+  emit(ChatError(message: 'Failed to send message.'));
 }
     
   }
@@ -27,7 +28,11 @@ class ChatCubit extends Cubit<ChatState> {
       'timestamp',
       descending: true,
     ).snapshots().listen((event) {
-      emit(ChatSuccess());
+      List<Message> messagesList = [];
+      for (var message in event.docs) {
+        messagesList.add(Message.fromJson(message.data() as Map<String, dynamic>));
+      }
+      emit(ChatSuccess(messages: messagesList));
     });
   }
 }
