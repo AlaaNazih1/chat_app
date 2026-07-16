@@ -1,5 +1,6 @@
 import 'package:chat_app/constant.dart';
 import 'package:chat_app/pages/cahat_page.dart';
+import 'package:chat_app/pages/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chat_app/pages/cubits/login_cubit/login_cubit.dart';
 import 'package:chat_app/pages/sign_up_page.dart';
 import 'package:chat_app/widgets/custom_botton.dart';
@@ -26,6 +27,7 @@ class SignInScreen extends StatelessWidget {
         if (state is LoginLoading) {
           isLoading = true;
         } else if (state is LoginSuccess) {
+          BlocProvider.of<ChatCubit>(context).getMessages();
           isLoading = false;
           Navigator.pushNamed(
             context,
