@@ -73,4 +73,13 @@ class AuthCubit extends Cubit<AuthState> {
       );
     }
   }
+
+
+  @override
+  void onChange(Change<AuthState> change) {
+    super.onChange(change);
+
+
+    print('State changed: ${change.currentState} -> ${change.nextState}');
+  }
 }
